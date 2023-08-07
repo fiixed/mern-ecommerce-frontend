@@ -37,7 +37,7 @@ const App = () => {
       <Navbar />
       {/* hide navbar if admin */}
       <Routes>
-        {/* nested route */}
+        {/* admin route */}
         <Route path="admin" element={<AdminDashboard />}>
           {/* products */} <Route path="" element={<OrdersList />} />
           <Route path="add-product" element={<AddProduct />} />
