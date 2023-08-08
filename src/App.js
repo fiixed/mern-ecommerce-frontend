@@ -30,6 +30,8 @@ import OrdersList from "./components/Admin/Orders/OdersList";
 import ManageOrders from "./components/Admin/Orders/ManageOrders";
 import Customers from "./components/Admin/Orders/Customers";
 import BrandsColorsList from "./components/Admin/Categories/BrandsColorsList";
+import AuthRoute from "./components/AuthRoute/AuthRoute";
+
 
 const App = () => {
   return (
@@ -38,7 +40,14 @@ const App = () => {
       {/* hide navbar if admin */}
       <Routes>
         {/* admin route */}
-        <Route path="admin" element={<AdminDashboard />}>
+        <Route
+          path="admin"
+          element={
+            <AuthRoute>
+              <AdminDashboard />
+            </AuthRoute>
+          }
+        >
           {/* products */} <Route path="" element={<OrdersList />} />
           <Route path="add-product" element={<AddProduct />} />
           <Route path="manage-products" element={<ManageStocks />} />
@@ -48,7 +57,7 @@ const App = () => {
           <Route path="manage-coupon" element={<ManageCoupons />} />
           <Route path="manage-coupon/edit/:code" element={<UpdateCoupon />} />
           {/* Category */}
-          <Route path="category-to-add" element={<CategoryToAdd />} />{" "}
+          <Route path="category-to-add" element={<CategoryToAdd />} />{' '}
           <Route path="add-category" element={<AddCategory />} />
           <Route path="manage-category" element={<ManageCategories />} />
           <Route path="edit-category/:id" element={<UpdateCategory />} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../../redux/slices/users/usersSlice';
 import ErrorMsg from '../../ErrorMsg/ErrorMsg';
@@ -6,7 +6,6 @@ import ErrorMsg from '../../ErrorMsg/ErrorMsg';
 const Login = () => {
   //dispatch
   const dispatch = useDispatch();
-
   const [formData, setFormData] = useState({
     email: 'admin@gmail.com',
     password: '12345',
@@ -30,11 +29,11 @@ const Login = () => {
   );
 
   //redirect
-  if (userInfo?.userFound?.isAdmin) {
-    window.location.href = '/admin';
-  } else {
-    window.location.href = '/customer-profile';
-  }
+  useEffect(() => {
+    if (userInfo?.userFound) {
+      window.location.href = '/admin';
+    }
+  }, [userInfo]);
 
   return (
     <>
