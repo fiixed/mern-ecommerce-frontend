@@ -1,23 +1,29 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import ErrorComponent from "../../ErrorMsg/ErrorMsg";
+import { registerUserAction } from "../../../redux/slices/users/usersSlice";
 
 const RegisterForm = () => {
   //dispatch
+  
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    fullname: "",
-    email: "",
-    password: "",
+    fullname: '',
+    email: '',
+    password: '',
   });
   //---Destructuring---
   const { fullname, email, password } = formData;
   //---onchange handler----
   const onChangeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    
   };
 
   //---onsubmit handler----
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    dispatch(registerUserAction({fullname, email, password}));
   };
   //select store data
 
@@ -25,7 +31,7 @@ const RegisterForm = () => {
   const { loading, userAuth } = {};
   //redirect
   if (userAuth?.userInfo?.status) {
-    window.location.href = "/login";
+    window.location.href = '/login';
   }
 
   return (
@@ -72,8 +78,9 @@ const RegisterForm = () => {
                   <button
                     // disable the button if loading is true
                     disabled={loading}
-                    className="mt-12 md:mt-16 bg-blue-800 hover:bg-blue-900 text-white font-bold font-heading py-5 px-8 rounded-md uppercase">
-                    {loading ? "Loading..." : "Register"}
+                    className="mt-12 md:mt-16 bg-blue-800 hover:bg-blue-900 text-white font-bold font-heading py-5 px-8 rounded-md uppercase"
+                  >
+                    {loading ? 'Loading...' : 'Register'}
                   </button>
                 </form>
               </div>
