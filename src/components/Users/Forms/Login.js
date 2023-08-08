@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../../redux/slices/users/usersSlice';
+import ErrorMsg from '../../ErrorMsg/ErrorMsg';
+import LoadingComponent from '../../LoadingComp/LoadingComponent';
+
 
 const Login = () => {
   //dispatch
   const dispatch = useDispatch();
-
   const [formData, setFormData] = useState({
     email: 'admin@gmail.com',
     password: '12345',
@@ -29,11 +31,11 @@ const Login = () => {
   );
 
   //redirect
-  if (userInfo?.userFound?.isAdmin) {
-    window.location.href = '/admin';
-  } else {
-    window.location.href = '/customer-profile';
-  }
+  useEffect(() => {
+    if (userInfo?.userFound) {
+      window.location.href = '/';
+    }
+  }, [userInfo]);
 
   return (
     <>
@@ -49,7 +51,8 @@ const Login = () => {
                 <p className="mb-10 font-semibold font-heading">
                   Happy to see you again
                 </p>
-                {error && <h2 className='text-red-600'>{error?.message}</h2>}
+
+                {error && <ErrorMsg message={error?.message} />}
                 <form
                   className="flex flex-wrap -mx-4"
                   onSubmit={onSubmitHandler}
@@ -85,9 +88,14 @@ const Login = () => {
 
                   <div className="w-full px-4">
                     {loading ? (
-                      <button disabled className="bg-gray-800  text-white font-bold font-heading py-5 px-8 rounded-md uppercase">
-                        Loading...
-                      </button>
+                      <LoadingComponent>
+                        <button
+                          disabled
+                          className="bg-gray-800  text-white font-bold font-heading py-5 px-8 rounded-md uppercase"
+                        >
+                          Loading...
+                        </button>
+                      </LoadingComponent>
                     ) : (
                       <button className="bg-blue-800 hover:bg-blue-900 text-white font-bold font-heading py-5 px-8 rounded-md uppercase">
                         Login
