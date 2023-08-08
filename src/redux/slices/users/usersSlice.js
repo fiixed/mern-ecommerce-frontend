@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import baseURL from '../../../utils/baseURL';
+import {
+  resetErrAction,
+  resetSuccessAction,
+} from '../globalActions/globalActions';
 
 // initialState
 const initialState = {
@@ -90,6 +94,10 @@ const usersSlice = createSlice({
     builder.addCase(registerUserAction.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
+    });
+    //reset error action
+    builder.addCase(resetErrAction.pending, (state) => {
+      state.error = null;
     });
   },
 });

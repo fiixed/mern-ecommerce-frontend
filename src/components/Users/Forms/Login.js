@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../../redux/slices/users/usersSlice';
 import ErrorMsg from '../../ErrorMsg/ErrorMsg';
+import LoadingComponent from '../../LoadingComp/LoadingComponent';
+
 
 const Login = () => {
   //dispatch
@@ -31,7 +33,7 @@ const Login = () => {
   //redirect
   useEffect(() => {
     if (userInfo?.userFound) {
-      window.location.href = '/admin';
+      window.location.href = '/';
     }
   }, [userInfo]);
 
@@ -86,12 +88,14 @@ const Login = () => {
 
                   <div className="w-full px-4">
                     {loading ? (
-                      <button
-                        disabled
-                        className="bg-gray-800  text-white font-bold font-heading py-5 px-8 rounded-md uppercase"
-                      >
-                        Loading...
-                      </button>
+                      <LoadingComponent>
+                        <button
+                          disabled
+                          className="bg-gray-800  text-white font-bold font-heading py-5 px-8 rounded-md uppercase"
+                        >
+                          Loading...
+                        </button>
+                      </LoadingComponent>
                     ) : (
                       <button className="bg-blue-800 hover:bg-blue-900 text-white font-bold font-heading py-5 px-8 rounded-md uppercase">
                         Login
