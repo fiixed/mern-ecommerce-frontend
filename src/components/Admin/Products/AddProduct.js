@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { createProductAction } from '../../../redux/slices/products/productSlices';
+import { fetchCategoriesAction } from '../../../redux/slices/categories/categoriesSlice';
 import ErrorMsg from "../../ErrorMsg/ErrorMsg";
 import LoadingComponent from "../../LoadingComp/LoadingComponent";
 import SuccessMsg from "../../SuccessMsg/SuccessMsg";
@@ -25,10 +26,15 @@ export default function AddProduct() {
       label: size,
     };
   });
-  let categories,
 
-  
-    colorOptionsCoverted,
+  //categories
+  useEffect(() => {
+    dispatch(fetchCategoriesAction());
+  }, [dispatch]);
+  //select data from store
+  const { categories } = useSelector((state) => state?.categories?.categories);
+
+  let colorOptionsCoverted,
     handleColorChangeOption,
     brands,
     loading,
