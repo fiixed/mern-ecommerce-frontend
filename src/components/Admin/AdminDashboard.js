@@ -20,7 +20,8 @@ const ordersLinks = [
   {
     name: "Dashboard",
     href: "",
-    icon: () => (
+    icon: 
+    () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -178,7 +179,7 @@ const brandsLinks = [
   },
 ];
 
-export default function Example() {
+export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
