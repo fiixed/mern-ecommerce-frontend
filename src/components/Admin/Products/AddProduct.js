@@ -5,6 +5,7 @@ import makeAnimated from "react-select/animated";
 import { createProductAction } from '../../../redux/slices/products/productSlices';
 import { fetchCategoriesAction } from '../../../redux/slices/categories/categoriesSlice';
 import { fetchBrandsAction } from "../../../redux/slices/categories/brandsSlice";
+import { fetchColorsAction } from "../../../redux/slices/categories/colorsSlice";
 import ErrorMsg from "../../ErrorMsg/ErrorMsg";
 import LoadingComponent from "../../LoadingComp/LoadingComponent";
 import SuccessMsg from "../../SuccessMsg/SuccessMsg";
@@ -44,12 +45,29 @@ export default function AddProduct() {
     brands: { brands },
   } = useSelector((state) => state?.brands);
 
-  let colorOptionsCoverted,
-    handleColorChangeOption,
-    
-    loading,
-    error,
-    isAdded;
+  //colors
+  const [colorsOption, setColorsOption] = useState([]);
+
+  const {
+    colors: { colors },
+  } = useSelector((state) => state?.colors);
+
+  useEffect(() => {
+    dispatch(fetchColorsAction());
+  }, [dispatch]);
+
+  const handleColorChange = (colors) => {
+    setColorsOption(colors);
+  };
+  //converted colors
+  const colorsCoverted = colors?.map((color) => {
+    return {
+      value: color?.name,
+      label: color?.name,
+    };
+  });
+
+  let   loading, error,isAdded;
 
   //---form data---
   const [formData, setFormData] = useState({
@@ -193,14 +211,14 @@ export default function AddProduct() {
                   components={animatedComponents}
                   isMulti
                   name="colors"
-                  options={colorOptionsCoverted}
+                  options={colorsCoverted}
                   className="basic-multi-select"
                   classNamePrefix="select"
                   isClearable={true}
                   isLoading={false}
                   isSearchable={true}
                   closeMenuOnSelect={false}
-                  onChange={(e) => handleColorChangeOption(e)}
+                  onChange={(e) => handleColorChange(e)}
                 />
               </div>
 
