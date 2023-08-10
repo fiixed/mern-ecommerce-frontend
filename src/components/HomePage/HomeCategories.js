@@ -11,9 +11,11 @@ const HomeCategories = () => {
   }, [dispatch]);
 
   //get data from store
-  const { categories } = useSelector((state) => state?.categories);
+  const {
+    categories: { categories },
+  } = useSelector((state) => state?.categories);
 
-  const categoriesToShow = categories?.categories?.slice(0, 5);
+  const categoriesToShow = categories?.slice(0, 5);
 
   return (
     <>
