@@ -80,6 +80,7 @@ export default function ProductsFilters() {
   // get query string
   const [params, setParams] = useSearchParams();
   const category = params.get('category');
+  console.log(category);
   //filters
   const [color, setColor] = useState('');
   const [price, setPrice] = useState('');
@@ -88,6 +89,9 @@ export default function ProductsFilters() {
 
   //build url
   let productUrl = `${baseURL}/products`;
+  if (category) {
+    productUrl = `${baseURL}/products?category=${category}`;
+  }
 
   //fetch all products
   useEffect(() => {
@@ -97,6 +101,10 @@ export default function ProductsFilters() {
       })
     );
   }, [dispatch]);
+  //get store data
+  const {
+    products: { products },
+  } = useSelector((state) => state?.products);
 
   // fetchBrands
   useEffect(() => {
@@ -127,11 +135,10 @@ export default function ProductsFilters() {
 
   let colorsLoading;
   let colorsError;
-  
 
   let productsLoading;
   let productsError;
-  let products;
+
 
   return (
     <div className="bg-white">

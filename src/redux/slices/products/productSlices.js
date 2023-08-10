@@ -122,7 +122,6 @@ export const updateProductAction = createAsyncThunk(
 export const fetchProductsAction = createAsyncThunk(
   'product/list',
   async ({ url }, { rejectWithValue, getState, dispatch }) => {
-    console.log(url);
     try {
       const token = getState()?.users?.userAuth?.userInfo?.token;
       const config = {
