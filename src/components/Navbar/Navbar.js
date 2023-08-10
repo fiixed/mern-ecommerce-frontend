@@ -22,9 +22,11 @@ export default function Navbar() {
     dispatch(fetchCategoriesAction());
   }, [dispatch]);
   //get data from store
-  const { categories } = useSelector((state) => state?.categories);
+  const {
+    categories: { categories },
+  } = useSelector((state) => state?.categories);
 
-  const categoriesToDisplay = categories?.categories?.slice(0, 3);
+  const categoriesToDisplay = categories?.slice(0, 3);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   //get data from store
