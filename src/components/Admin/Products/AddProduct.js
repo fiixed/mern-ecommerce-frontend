@@ -106,7 +106,7 @@ export default function AddProduct() {
   //onSubmit
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(fileErrs);
+
     //dispatch
     dispatch(
       createProductAction({

@@ -38,7 +38,6 @@ export default function CategoryToAdd() {
   const { loading, error, isAdded } = useSelector((state) => state?.categories);
   //onSubmit
   const handleOnSubmit = (e) => {
-    console.log(file);
     e.preventDefault();
     //dispatch
     dispatch(
