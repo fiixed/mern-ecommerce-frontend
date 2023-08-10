@@ -4,7 +4,6 @@ import { loginUserAction } from '../../../redux/slices/users/usersSlice';
 import ErrorMsg from '../../ErrorMsg/ErrorMsg';
 import LoadingComponent from '../../LoadingComp/LoadingComponent';
 
-
 const Login = () => {
   //dispatch
   const dispatch = useDispatch();
@@ -31,11 +30,17 @@ const Login = () => {
   );
 
   //redirect
-  useEffect(() => {
-    if (userInfo?.userFound) {
-      window.location.href = '/';
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  //   if (userInfo?.userFound) {
+  //     window.location.href = '/';
+  //   }
+  // }, [userInfo]);
+
+  if (userInfo?.userFound?.isAdmin) {
+    window.location.href = '/admin';
+  } else {
+    window.location.href = '/customer-profile';
+  }
 
   return (
     <>
