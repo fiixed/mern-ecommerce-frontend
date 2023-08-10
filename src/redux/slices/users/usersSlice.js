@@ -24,7 +24,7 @@ const initialState = {
 
 //register action
 export const registerUserAction = createAsyncThunk(
-  "users/register",
+  'users/register',
   async (
     { email, password, fullname },
     { rejectWithValue, getState, dispatch }
@@ -38,7 +38,6 @@ export const registerUserAction = createAsyncThunk(
       });
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error?.response?.data);
     }
   }
@@ -46,7 +45,7 @@ export const registerUserAction = createAsyncThunk(
 
 //login action
 export const loginUserAction = createAsyncThunk(
-  "users/login",
+  'users/login',
   async ({ email, password }, { rejectWithValue, getState, dispatch }) => {
     try {
       //make the http request
@@ -55,10 +54,9 @@ export const loginUserAction = createAsyncThunk(
         password,
       });
       //save the user into localstorage
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem('userInfo', JSON.stringify(data));
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error?.response?.data);
     }
   }
