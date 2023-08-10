@@ -1,84 +1,134 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from 'react';
 import {
   Dialog,
   Disclosure,
   Menu,
   Transition,
   RadioGroup,
-} from "@headlessui/react";
+} from '@headlessui/react';
 
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import {
   ChevronDownIcon,
   FunnelIcon,
   MinusIcon,
   PlusIcon,
-} from "@heroicons/react/20/solid";
-import Products from "./Products";
+} from '@heroicons/react/20/solid';
+import Products from './Products';
+import { useSearchParams } from 'react-router-dom';
+import baseURL from '../../../utils/baseURL';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductsAction } from '../../../redux/slices/products/productSlices';
+import { fetchBrandsAction } from '../../../redux/slices/categories/brandsSlice';
+import { fetchColorsAction } from '../../../redux/slices/categories/colorsSlice';
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
+  { name: 'Most Popular', href: '#', current: true },
+  { name: 'Best Rating', href: '#', current: false },
+  { name: 'Newest', href: '#', current: false },
+  { name: 'Price: Low to High', href: '#', current: false },
+  { name: 'Price: High to Low', href: '#', current: false },
 ];
 
 const allPrice = [
   {
-    amount: "0 - 50",
+    amount: '0 - 50',
   },
   {
-    amount: "50 - 100",
+    amount: '50 - 100',
   },
   {
-    amount: "100 - 150",
+    amount: '100 - 150',
   },
   {
-    amount: "150 - 200",
+    amount: '150 - 200',
   },
   {
-    amount: "200 - 250",
+    amount: '200 - 250',
   },
   {
-    amount: "250 - 300",
+    amount: '250 - 300',
   },
   {
-    amount: "300 - 350",
+    amount: '300 - 350',
   },
   {
-    amount: "350 - 400",
+    amount: '350 - 400',
   },
 ];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 const sizeCategories = [
-  "XXS",
-  "XS",
-  "S",
-  "M",
-  "L",
-  "XL",
-  "XXL",
-  "XXXL",
-  "XXXXL",
+  'XXS',
+  'XS',
+  'S',
+  'M',
+  'L',
+  'XL',
+  'XXL',
+  'XXXL',
+  'XXXXL',
 ];
 
 export default function ProductsFilters() {
+  const dispatch = useDispatch();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  // get query string
+  const [params, setParams] = useSearchParams();
+  const category = params.get('category');
+  //filters
+  const [color, setColor] = useState('');
+  const [price, setPrice] = useState('');
+  const [size, setSize] = useState('');
+  const [brand, setBrand] = useState('');
+
+  //build url
+  let productUrl = `${baseURL}/products`;
+
+  //fetch all products
+  useEffect(() => {
+    dispatch(
+      fetchProductsAction({
+        url: productUrl,
+      })
+    );
+  }, [dispatch]);
+
+  // fetchBrands
+  useEffect(() => {
+    dispatch(
+      fetchBrandsAction({
+        url: productUrl,
+      })
+    );
+  }, [dispatch]);
+  //get store data
+  const {
+    brands: { brands },
+  } = useSelector((state) => state?.brands);
+
+  // fetchColors
+  useEffect(() => {
+    dispatch(
+      fetchColorsAction({
+        url: productUrl,
+      })
+    );
+  }, [dispatch]);
+
+  //get store data
+  const {
+    colors: { colors },
+  } = useSelector((state) => state?.colors);
 
   let colorsLoading;
   let colorsError;
-  let colors;
-  let setPrice;
-  let brands;
-  let setSize;
-  let setColor;
-  let setBrand;
+  
+
   let productsLoading;
   let productsError;
   let products;
@@ -91,7 +141,8 @@ export default function ProductsFilters() {
           <Dialog
             as="div"
             className="relative z-40 lg:hidden"
-            onClose={setMobileMenuOpen}>
+            onClose={setMobileMenuOpen}
+          >
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -99,7 +150,8 @@ export default function ProductsFilters() {
               enterTo="opacity-100"
               leave="transition-opacity ease-linear duration-300"
               leaveFrom="opacity-100"
-              leaveTo="opacity-0">
+              leaveTo="opacity-0"
+            >
               <div className="fixed inset-0 bg-black bg-opacity-25" />
             </Transition.Child>
 
@@ -111,13 +163,15 @@ export default function ProductsFilters() {
                 enterTo="translate-x-0"
                 leave="transition ease-in-out duration-300 transform"
                 leaveFrom="translate-x-0"
-                leaveTo="-translate-x-full">
+                leaveTo="-translate-x-full"
+              >
                 <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
                   <div className="flex px-4 pt-5 pb-2">
                     <button
                       type="button"
                       className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
-                      onClick={() => setMobileMenuOpen(false)}>
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
                       <span className="sr-only">Close menu</span>
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
@@ -135,7 +189,8 @@ export default function ProductsFilters() {
           <Dialog
             as="div"
             className="relative z-40 lg:hidden"
-            onClose={setMobileFiltersOpen}>
+            onClose={setMobileFiltersOpen}
+          >
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -143,7 +198,8 @@ export default function ProductsFilters() {
               enterTo="opacity-100"
               leave="transition-opacity ease-linear duration-300"
               leaveFrom="opacity-100"
-              leaveTo="opacity-0">
+              leaveTo="opacity-0"
+            >
               <div className="fixed inset-0 bg-black bg-opacity-25" />
             </Transition.Child>
 
@@ -155,7 +211,8 @@ export default function ProductsFilters() {
                 enterTo="translate-x-0"
                 leave="transition ease-in-out duration-300 transform"
                 leaveFrom="translate-x-0"
-                leaveTo="translate-x-full">
+                leaveTo="translate-x-full"
+              >
                 <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex items-center justify-between px-4">
                     <h2 className="text-lg font-medium text-gray-900">
@@ -164,7 +221,8 @@ export default function ProductsFilters() {
                     <button
                       type="button"
                       className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                      onClick={() => setMobileFiltersOpen(false)}>
+                      onClick={() => setMobileFiltersOpen(false)}
+                    >
                       <span className="sr-only">Close menu</span>
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
@@ -176,7 +234,8 @@ export default function ProductsFilters() {
                     <Disclosure
                       as="div"
                       key="disclosure"
-                      className="border-t border-gray-200 px-4 py-6">
+                      className="border-t border-gray-200 px-4 py-6"
+                    >
                       {({ open }) => (
                         <>
                           <h3 className="-mx-2 -my-3 flow-root">
@@ -217,12 +276,13 @@ export default function ProductsFilters() {
                                         className={({ active, checked }) =>
                                           classNames(
                                             active && checked
-                                              ? "ring ring-offset-1"
-                                              : "",
-                                            !active && checked ? "ring-2" : "",
-                                            " relative  rounded-full flex  flex-col items-center justify-center cursor-pointer focus:outline-none m-2"
+                                              ? 'ring ring-offset-1'
+                                              : '',
+                                            !active && checked ? 'ring-2' : '',
+                                            ' relative  rounded-full flex  flex-col items-center justify-center cursor-pointer focus:outline-none m-2'
                                           )
-                                        }>
+                                        }
+                                      >
                                         <span
                                           style={{
                                             backgroundColor: color?.name,
@@ -245,7 +305,8 @@ export default function ProductsFilters() {
                     <Disclosure
                       as="div"
                       key="disclosure"
-                      className="border-t border-gray-200 px-4 py-6">
+                      className="border-t border-gray-200 px-4 py-6"
+                    >
                       {({ open }) => (
                         <>
                           <h3 className="-mx-2 -my-3 flow-root">
@@ -273,7 +334,8 @@ export default function ProductsFilters() {
                               {allPrice?.map((price) => (
                                 <div
                                   key={Math.random()}
-                                  className="flex items-center">
+                                  className="flex items-center"
+                                >
                                   <input
                                     onClick={() => setPrice(price?.amount)}
                                     name="price"
@@ -296,7 +358,8 @@ export default function ProductsFilters() {
                     <Disclosure
                       as="div"
                       key="disclosure"
-                      className="border-t border-gray-200 px-4 py-6">
+                      className="border-t border-gray-200 px-4 py-6"
+                    >
                       {({ open }) => (
                         <>
                           <h3 className="-mx-2 -my-3 flow-root">
@@ -324,7 +387,8 @@ export default function ProductsFilters() {
                               {brands?.map((brand) => (
                                 <div
                                   key={brand?._id}
-                                  className="flex items-center">
+                                  className="flex items-center"
+                                >
                                   <input
                                     onClick={() => setBrand(brand?.name)}
                                     name="brand"
@@ -347,7 +411,8 @@ export default function ProductsFilters() {
                     <Disclosure
                       as="div"
                       key="disclosure"
-                      className="border-t border-gray-200 px-4 py-6">
+                      className="border-t border-gray-200 px-4 py-6"
+                    >
                       {({ open }) => (
                         <>
                           <h3 className="-mx-2 -my-3 flow-root">
@@ -425,7 +490,8 @@ export default function ProductsFilters() {
                   enterTo="transform opacity-100 scale-100"
                   leave="transition ease-in duration-75"
                   leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95">
+                  leaveTo="transform opacity-0 scale-95"
+                >
                   <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       {sortOptions.map((option) => (
@@ -435,11 +501,12 @@ export default function ProductsFilters() {
                               href={option.href}
                               className={classNames(
                                 option.current
-                                  ? "font-medium text-gray-900"
-                                  : "text-gray-500",
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm"
-                              )}>
+                                  ? 'font-medium text-gray-900'
+                                  : 'text-gray-500',
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm'
+                              )}
+                            >
                               {option.name}
                             </a>
                           )}
@@ -453,7 +520,8 @@ export default function ProductsFilters() {
               <button
                 type="button"
                 className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-                onClick={() => setMobileFiltersOpen(true)}>
+                onClick={() => setMobileFiltersOpen(true)}
+              >
                 <span className="sr-only">Filters</span>
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -474,7 +542,8 @@ export default function ProductsFilters() {
                 <Disclosure
                   as="div"
                   key="disclosure"
-                  className="border-t border-gray-200 px-4 py-6">
+                  className="border-t border-gray-200 px-4 py-6"
+                >
                   {({ open }) => (
                     <>
                       <h3 className="-mx-2 -my-3 flow-root">
@@ -515,12 +584,13 @@ export default function ProductsFilters() {
                                     className={({ active, checked }) =>
                                       classNames(
                                         active && checked
-                                          ? "ring ring-offset-1"
-                                          : "",
-                                        !active && checked ? "ring-2" : "",
-                                        " relative  rounded-full flex  flex-col items-center justify-center cursor-pointer focus:outline-none m-2"
+                                          ? 'ring ring-offset-1'
+                                          : '',
+                                        !active && checked ? 'ring-2' : '',
+                                        ' relative  rounded-full flex  flex-col items-center justify-center cursor-pointer focus:outline-none m-2'
                                       )
-                                    }>
+                                    }
+                                  >
                                     <span
                                       style={{ backgroundColor: color?.name }}
                                       aria-hidden="true"
@@ -542,7 +612,8 @@ export default function ProductsFilters() {
                 <Disclosure
                   as="div"
                   key="disclosure"
-                  className="border-t border-gray-200 px-4 py-6">
+                  className="border-t border-gray-200 px-4 py-6"
+                >
                   {({ open }) => (
                     <>
                       <h3 className="-mx-2 -my-3 flow-root">
@@ -591,7 +662,8 @@ export default function ProductsFilters() {
                 <Disclosure
                   as="div"
                   key="disclosure"
-                  className="border-t border-gray-200 px-4 py-6">
+                  className="border-t border-gray-200 px-4 py-6"
+                >
                   {({ open }) => (
                     <>
                       <h3 className="-mx-2 -my-3 flow-root">
@@ -640,7 +712,8 @@ export default function ProductsFilters() {
                 <Disclosure
                   as="div"
                   key="disclosure"
-                  className="border-t border-gray-200 px-4 py-6">
+                  className="border-t border-gray-200 px-4 py-6"
+                >
                   {({ open }) => (
                     <>
                       <h3 className="-mx-2 -my-3 flow-root">

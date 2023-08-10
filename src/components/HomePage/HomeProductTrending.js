@@ -23,7 +23,7 @@ const HomeProductTrending = () => {
     loading,
   } = useSelector((state) => state?.products);
 
-  const trendingProducts = [];
+
   return (
     <>
       <section aria-labelledby="trending-heading">
