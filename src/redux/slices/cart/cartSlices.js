@@ -22,7 +22,7 @@ export const addOrderToCartAction = createAsyncThunk(
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }
 );
-//add product to cart
+//add cart items from local storage
 export const getCartItemsFromLocalStorageAction = createAsyncThunk(
   'cart/get-order-items',
   async () => {
