@@ -11,7 +11,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductAction } from '../../../redux/slices/products/productSlices';
 import {
-  addOrderToCartaction,
+  addOrderToCartAction,
   getCartItemsFromLocalStorageAction,
 } from '../../../redux/slices/cart/cartSlices';
 const product = {
@@ -111,61 +111,61 @@ export default function Product() {
   } = useSelector((state) => state?.products);
 
   //Get cart items
-  // useEffect(() => {
-  //   dispatch(getCartItemsFromLocalStorageAction());
-  // }, []);
+  useEffect(() => {
+    dispatch(getCartItemsFromLocalStorageAction());
+  }, []);
   //get data from store
-  // const { cartItems } = useSelector((state) => state?.carts);
-  // const productExists = cartItems?.find(
-  //   (item) => item?._id?.toString() === product?._id.toString()
-  // );
+  const { cartItems } = useSelector((state) => state?.carts);
+  const productExists = cartItems?.find(
+    (item) => item?._id?.toString() === product?._id.toString()
+  );
 
   //Add to cart handler
-  // const addToCartHandler = () => {
-  //   //check if product is in cart
-  //   if (productExists) {
-  //     return Swal.fire({
-  //       icon: 'error',
-  //       title: 'Oops...',
-  //       text: 'This product is already in cart',
-  //     });
-  //   }
-  //   //check if color/size selected
-  //   if (selectedColor === '') {
-  //     return Swal.fire({
-  //       icon: 'error',
-  //       title: 'Oops...!',
-  //       text: 'Please select product color',
-  //     });
-  //   }
-  //   if (selectedSize === '') {
-  //     return Swal.fire({
-  //       icon: 'error',
-  //       title: 'Oops...',
-  //       text: 'Please select  p roduct size',
-  //     });
-  //   }
-  //   dispatch(
-  //     addOrderToCartaction({
-  //       _id: product?._id,
-  //       name: product?.name,
-  //       qty: 1,
-  //       price: product?.price,
-  //       description: product?.description,
-  //       color: selectedColor,
-  //       size: selectedSize,
-  //       image: product?.images[0],
-  //       totalPrice: product?.price,
-  //       qtyLeft: product?.qtyLeft,
-  //     })
-  //   );
-  //   Swal.fire({
-  //     icon: 'success',
-  //     title: 'Good Job',
-  //     text: 'Product added to cart successfully',
-  //   });
-  //   return dispatch(getCartItemsFromLocalStorageAction());
-  // };
+  const addToCartHandler = () => {
+    //check if product is in cart
+    if (productExists) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'This product is already in cart',
+      });
+    }
+    //check if color/size selected
+    if (selectedColor === '') {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...!',
+        text: 'Please select product color',
+      });
+    }
+    if (selectedSize === '') {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please select  p roduct size',
+      });
+    }
+    dispatch(
+      addOrderToCartAction({
+        _id: product?._id,
+        name: product?.name,
+        qty: 1,
+        price: product?.price,
+        description: product?.description,
+        color: selectedColor,
+        size: selectedSize,
+        image: product?.images[0],
+        totalPrice: product?.price,
+        qtyLeft: product?.qtyLeft,
+      })
+    );
+    Swal.fire({
+      icon: 'success',
+      title: 'Good Job',
+      text: 'Product added to cart successfully',
+    });
+    return dispatch(getCartItemsFromLocalStorageAction());
+  };
 
   return (
     <div className="bg-white">
@@ -317,7 +317,7 @@ export default function Product() {
                 </RadioGroup>
               </div>
               {/* add to cart */}
-              {/* {product?.qtyLeft <= 0 ? (
+              {product?.qtyLeft <= 0 ? (
                 <button
                   style={{ cursor: 'not-allowed' }}
                   disabled
@@ -335,14 +335,14 @@ export default function Product() {
               )}
               {/* proceed to check */}
 
-              {/* {cartItems.length > 0 && (
+              {cartItems.length > 0 && (
                 <Link
                   to="/shopping-cart"
                   className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-green-800 py-3 px-8 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   Proceed to checkout
                 </Link>
-              )}  */}
+              )}
             </>
 
             {/* Product details */}

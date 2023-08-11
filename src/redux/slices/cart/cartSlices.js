@@ -11,7 +11,7 @@ const initialState = {
 };
 
 //add product to cart
-export const addOrderToCartaction = createAsyncThunk(
+export const addOrderToCartAction = createAsyncThunk(
   'cart/add-to-cart',
   async (cartItem) => {
     const cartItems = localStorage.getItem('cartItems')
@@ -22,7 +22,7 @@ export const addOrderToCartaction = createAsyncThunk(
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }
 );
-//add product to cart
+//add cart items from local storage
 export const getCartItemsFromLocalStorageAction = createAsyncThunk(
   'cart/get-order-items',
   async () => {
@@ -71,15 +71,15 @@ const cartSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     //add to cart
-    builder.addCase(addOrderToCartaction.pending, (state) => {
+    builder.addCase(addOrderToCartAction.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(addOrderToCartaction.fulfilled, (state, action) => {
+    builder.addCase(addOrderToCartAction.fulfilled, (state, action) => {
       state.loading = false;
       state.cartItems = action.payload;
       state.isAdded = true;
     });
-    builder.addCase(addOrderToCartaction.rejected, (state, action) => {
+    builder.addCase(addOrderToCartAction.rejected, (state, action) => {
       state.loading = false;
       state.cartItems = null;
       state.isAdded = false;

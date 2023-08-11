@@ -12,8 +12,8 @@ import logo from './logo3.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategoriesAction } from '../../redux/slices/categories/categoriesSlice';
 import { getCartItemsFromLocalStorageAction } from '../../redux/slices/cart/cartSlices';
-// import { logoutAction } from '../../redux/slices/users/usersSlice';
-// import { fetchCouponsAction } from '../../redux/slices/coupons/couponsSlice';
+import { logoutAction } from '../../redux/slices/users/usersSlice';
+import { fetchCouponsAction } from '../../redux/slices/coupons/couponsSlice';
 
 export default function Navbar() {
   //dispatch
@@ -22,18 +22,16 @@ export default function Navbar() {
     dispatch(fetchCategoriesAction());
   }, [dispatch]);
   //get data from store
-  const {
-    categories: { categories },
-  } = useSelector((state) => state?.categories);
+  const { categories } = useSelector((state) => state?.categories);
 
-  const categoriesToDisplay = categories?.slice(0, 3);
+  const categoriesToDisplay = categories?.categories?.slice(0, 3);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   //get data from store
-  // useEffect(() => {
-  //   dispatch(getCartItemsFromLocalStorageAction());
-  // }, [dispatch]);
-  // const { cartItems } = useSelector((state) => state?.carts);
+  useEffect(() => {
+    dispatch(getCartItemsFromLocalStorageAction());
+  }, [dispatch]);
+  const { cartItems } = useSelector((state) => state?.carts);
   //get cart items from local storage
   let cartItemsFromLocalStorage;
   //get login user from localstorage
@@ -42,21 +40,21 @@ export default function Navbar() {
 
   const isLoggedIn = user?.token ? true : false;
   //logout handler
-  // const logoutHandler = () => {
-  //   dispatch(logoutAction());
-  //   //reload
-  //   window.location.reload();
-  // };
-  // //coupons
-  // useEffect(() => {
-  //   dispatch(fetchCouponsAction());
-  // }, [dispatch]);
-  // //get coupons
-  // const { coupons, loading, error } = useSelector((state) => state?.coupons);
-  // //Get current coupon
-  // const currentCoupon = coupons
-  //   ? coupons?.coupons?.[coupons?.coupons?.length - 1]
-  //   : console.log(currentCoupon);
+  const logoutHandler = () => {
+    dispatch(logoutAction());
+    //reload
+    window.location.reload();
+  };
+  //coupons
+  useEffect(() => {
+    dispatch(fetchCouponsAction());
+  }, [dispatch]);
+  //get coupons
+  const { coupons, loading, error } = useSelector((state) => state?.coupons);
+  //Get current coupon
+  const currentCoupon = coupons
+    ? coupons?.coupons?.[coupons?.coupons?.length - 1]
+    : console.log(currentCoupon);
 
   return (
     <div className="bg-white">
@@ -185,7 +183,7 @@ export default function Navbar() {
       <header className="relative z-10">
         <nav aria-label="Top">
           {/* Coupon navbar */}
-          {/* {!currentCoupon?.isExpired && (
+          {!currentCoupon?.isExpired && (
             <div className="bg-yellow-600">
               <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <p
@@ -200,7 +198,7 @@ export default function Navbar() {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6"></div>
               </div>
             </div>
-          )} */}
+          )}
           {/* Top navigation  desktop*/}
           {!isLoggedIn && (
             <div className="bg-gray-800">
@@ -337,7 +335,7 @@ export default function Navbar() {
                               />
                             </Link>
                             {/* logout */}
-                            {/* <button onClick={logoutHandler}>
+                            <button onClick={logoutHandler}>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -352,7 +350,7 @@ export default function Navbar() {
                                   d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
                                 />
                               </svg>
-                            </button> */}
+                            </button>
                           </div>
                         )}
                       </div>
@@ -362,7 +360,7 @@ export default function Navbar() {
                         aria-hidden="true"
                       />
                       {/* login shopping cart mobile */}
-                      {/* <div className="flow-root">
+                      <div className="flow-root">
                         <Link
                           to="/shopping-cart"
                           className="group -m-2 flex items-center p-2"
@@ -375,7 +373,7 @@ export default function Navbar() {
                             {cartItems?.length > 0 ? cartItems?.length : 0}
                           </span>
                         </Link>
-                      </div> */}
+                      </div>
                     </div>
                   </div>
                 </div>
