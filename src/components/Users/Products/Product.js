@@ -11,7 +11,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductAction } from '../../../redux/slices/products/productSlices';
 import {
-  addOrderToCartaction,
+  addOrderToCartAction,
   getCartItemsFromLocalStorageAction,
 } from '../../../redux/slices/cart/cartSlices';
 const product = {
@@ -146,7 +146,7 @@ export default function Product() {
       });
     }
     dispatch(
-      addOrderToCartaction({
+      addOrderToCartAction({
         _id: product?._id,
         name: product?.name,
         qty: 1,
