@@ -24,7 +24,7 @@ export default function ShoppingCart() {
     dispatch(getCartItemsFromLocalStorageAction());
   }, [dispatch]);
   //coupon state
-  const [couponCode, setCouponCode] = useState(null);
+  const [couponCode, setCouponCode] = useState('');
   const applyCouponSubmit = (e) => {
     e.preventDefault();
     dispatch(fetchCouponAction(couponCode));
