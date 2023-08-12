@@ -31,8 +31,11 @@ import ManageOrders from "./components/Admin/Orders/ManageOrders";
 import Customers from "./components/Admin/Orders/Customers";
 import BrandsColorsList from "./components/Admin/Categories/BrandsColorsList";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
-import AdminRoute from "./components/AuthRoute/AdminRoute";
+import AdminRoute from './components/AuthRoute/AdminRoute';
 import ThanksForOrdering from './components/Users/Products/ThanksForOrdering';
+import ProductUpdate from './components/Admin/Products/ProductUpdate';
+import UpdateOrders from './components/Admin/Orders/UpdateOrders';
+import ColorsList from './components/Admin/Categories/ColorsList';
 
 
 
@@ -40,6 +43,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
+      {/* hide navbar if admin */}
       {/* hide navbar if admin */}
       <Routes>
         {/* admin route */}
@@ -51,29 +55,121 @@ const App = () => {
             </AdminRoute>
           }
         >
-          {/* products */} <Route path="" element={<OrdersList />} />
-          <Route path="add-product" element={<AddProduct />} />
-          <Route path="manage-products" element={<ManageStocks />} />
-          <Route path="products/edit/:id" element={<UpdateProduct />} />
+          {/* products */}
+          <Route
+            path=""
+            element={
+              <AdminRoute>
+                <OrdersList />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="add-product"
+            element={
+              <AdminRoute>
+                <AddProduct />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="manage-products"
+            element={
+              <AdminRoute>
+                <ManageStocks />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="products/edit/:id"
+            element={
+              <AdminRoute>
+                <ProductUpdate />
+              </AdminRoute>
+            }
+          />
           {/* coupons */}
-          <Route path="add-coupon" element={<AddCoupon />} />
+          <Route
+            path="add-coupon"
+            element={
+              <AdminRoute>
+                <AddCoupon />
+              </AdminRoute>
+            }
+          />
           <Route path="manage-coupon" element={<ManageCoupons />} />
-          <Route path="manage-coupon/edit/:code" element={<UpdateCoupon />} />
+          <Route
+            path="manage-coupon/edit/:code"
+            element={
+              <AdminRoute>
+                <UpdateCoupon />
+              </AdminRoute>
+            }
+          />
           {/* Category */}
-          <Route path="category-to-add" element={<CategoryToAdd />} />{' '}
+          <Route
+            path="category-to-add"
+            element={
+              <AdminRoute>
+                <CategoryToAdd />
+              </AdminRoute>
+            }
+          />
           <Route path="add-category" element={<AddCategory />} />
-          <Route path="manage-category" element={<ManageCategories />} />
-          <Route path="edit-category/:id" element={<UpdateCategory />} />
+          <Route
+            path="manage-category"
+            element={
+              <AdminRoute>
+                <ManageCategories />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="edit-category/:id"
+            element={
+              <AdminRoute>
+                <UpdateCategory />
+              </AdminRoute>
+            }
+          />
           {/* brand category */}
-          <Route path="add-brand" element={<AddBrand />} />
-          <Route path="all-brands" element={<BrandsColorsList />} />
+          <Route
+            path="add-brand"
+            element={
+              <AdminRoute>
+                <AddBrand />
+              </AdminRoute>
+            }
+          />
+          {/* <Route path="all-brands" element={<BrandsList />} /> */}
           {/* color category */}
-          <Route path="add-color" element={<AddColor />} />
-          <Route path="all-colors" element={<BrandsColorsList />} />
+          <Route
+            path="add-color"
+            element={
+              <AdminRoute>
+                <AddColor />
+              </AdminRoute>
+            }
+          />
+          <Route path="all-colors" element={<ColorsList />} />
           {/* Orders */}
           <Route path="manage-orders" element={<ManageOrders />} />
-          <Route path="order-payment" element={<OrderPayment />} />
-          <Route path="customers" element={<Customers />} />
+          <Route
+            path="orders/:id"
+            element={
+              <AdminRoute>
+                <UpdateOrders />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="customers"
+            element={
+              <AdminRoute>
+                <Customers />
+              </AdminRoute>
+            }
+          />
         </Route>
         {/* public links */}
         {/* Products */}
