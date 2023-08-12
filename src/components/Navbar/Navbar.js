@@ -237,11 +237,7 @@ export default function Navbar() {
                   <div className="hidden lg:flex lg:items-center">
                     <Link to="/">
                       <span className="sr-only">Your Company</span>
-                      <img
-                        className="h-32 pt-2 w-auto"
-                        src={logo}
-                        alt="i-novotek logo"
-                      />
+                      <img className="h-12 pt-1 w-auto" src={logo} alt="logo" />
                     </Link>
                   </div>
 

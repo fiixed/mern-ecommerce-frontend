@@ -38,6 +38,7 @@ const Login = () => {
 
   if (userInfo?.userFound?.isAdmin) {
     window.location.href = '/admin';
+  
   } else {
     window.location.href = '/customer-profile';
   }
