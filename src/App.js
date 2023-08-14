@@ -29,7 +29,7 @@ import UpdateCategory from "./components/Admin/Categories/UpdateCategory";
 import OrdersList from "./components/Admin/Orders/OdersList";
 import ManageOrders from "./components/Admin/Orders/ManageOrders";
 import Customers from "./components/Admin/Orders/Customers";
-import BrandsColorsList from "./components/Admin/Categories/BrandsColorsList";
+import BrandsList from "./components/Admin/Categories/BrandsList";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import AdminRoute from './components/AuthRoute/AdminRoute';
 import ThanksForOrdering from './components/Users/Products/ThanksForOrdering';
@@ -141,7 +141,7 @@ const App = () => {
               </AdminRoute>
             }
           />
-          {/* <Route path="all-brands" element={<BrandsList />} /> */}
+          <Route path="all-brands" element={<BrandsList />} />
           {/* color category */}
           <Route
             path="add-color"
