@@ -30,19 +30,11 @@ const Login = () => {
   );
 
   //redirect
-  // useEffect(() => {
-  //   if (userInfo?.userFound) {
-  //     window.location.href = '/';
-  //   }
-  // }, [userInfo]);
-
-  if (userInfo?.userFound?.isAdmin) {
-    window.location.href = '/admin';
-  
-  } else {
-    window.location.href = '/customer-profile';
-  }
-
+  useEffect(() => {
+    if (userInfo?.userFound) {
+      window.location.href = '/';
+    }
+  }, [userInfo]);
   return (
     <>
       <section className="py-20 bg-gray-100 overflow-x-hidden">
@@ -57,7 +49,7 @@ const Login = () => {
                 <p className="mb-10 font-semibold font-heading">
                   Happy to see you again
                 </p>
-
+                {/* err */}
                 {error && <ErrorMsg message={error?.message} />}
                 <form
                   className="flex flex-wrap -mx-4"
@@ -94,14 +86,7 @@ const Login = () => {
 
                   <div className="w-full px-4">
                     {loading ? (
-                      <LoadingComponent>
-                        <button
-                          disabled
-                          className="bg-gray-800  text-white font-bold font-heading py-5 px-8 rounded-md uppercase"
-                        >
-                          Loading...
-                        </button>
-                      </LoadingComponent>
+                      <LoadingComponent />
                     ) : (
                       <button className="bg-blue-800 hover:bg-blue-900 text-white font-bold font-heading py-5 px-8 rounded-md uppercase">
                         Login
