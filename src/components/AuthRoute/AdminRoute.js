@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfileAction } from '../../redux/slices/users/usersSlice';
 import AdminOnly from '../NotAuthorised/AdminOnly';
 
-const AdminRoutes = ({ children }) => {
+const AdminRoute = ({ children }) => {
   console.log('ddd');
   //dispatch
   const dispatch = useDispatch();
@@ -17,4 +17,4 @@ const AdminRoutes = ({ children }) => {
   return <>{children}</>;
 };
 
-export default AdminRoutes;
+export default AdminRoute;
